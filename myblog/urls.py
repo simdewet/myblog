@@ -11,6 +11,7 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
 ]
 
+# IMPORTANT for media files
 from django.conf import settings
 from django.conf.urls.static import static
 
