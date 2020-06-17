@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+    <h2>New post</h2>
+    <form method="POST" class="post-form" autocomplete="off" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.as_p }} <br>
+
+    <div style="margin-bottom:10px">
+        <input type="file" name="images" multiple>
+    </div>
+
+    {% if post_images %}
+    <h2> Remove images </h2>
+        {% for i in post_images %}
+        <img src="{{ i.image.url }}" class="img-thumbnail" style="width:50%;">
+        <a class="btn btn-default" href="{% url 'image_remove' pk=i.pk %}" ><span class="glyphicon glyphicon-remove"></span></a>
+        {% endfor %}
+    {% endif %}
+    <div style="margin-top:10px;margin-bottom:10px">
+        <button type="submit" class="save btn btn-default">Save</button>
+    </div>
+
+    </form>
+
+
+
+{% endblock %}
+

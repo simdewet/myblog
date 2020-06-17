@@ -1,0 +1,4 @@
+.DS_store
+/media
+db.sqlite3
+/blog/static

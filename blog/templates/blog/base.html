@@ -1,0 +1,121 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Musings on mountains</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ 
+    <!-- include libraries(jQuery, bootstrap) -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- include summernote css/js-->
+    <link href="summernote.css" rel="stylesheet">
+    <script src="summernote.js"></script>
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/blog.css' %}?{% now "U" %}">
+
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item" href="{% url 'post_list' %}">Home</a>
+          <a class="blog-nav-item" href="{% url 'about' %}">About</a>
+          <a class="blog-nav-item" href="{% url 'login' %}"> Login</a>
+          {% if user.is_authenticated %}
+          <a class="blog-nav-item" href="{% url 'post_new' %}"><span class="glyphicon glyphicon-plus"></span> Add posts</a>
+          <a class="blog-nav-item" href="{% url 'logout' %}">Logout</a>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+
+
+      <div class="blog-header">
+        <div class="container">
+        <h1 class="blog-title">Musings on mountains</h1>
+        <p class="lead blog-description">A simple blog on my times in the mountains, with some other thoughts when they arise...</p>
+  
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="container">
+      <div class="row">
+         <hr>
+
+        <div class="col-sm-8 blog-main">
+          {% block content %}
+
+          {% endblock %}
+        </div>
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About this blog</h4>
+            <p>I'm a big fan of spending time in mountainous areas, usually hiking or rock climbing. I figured it would be nice to document some of my adventures and be able to share them with friends and family, or just anyone interested. </p>
+          </div>
+          
+          <div class="sidebar-module">
+            <h4>Archives</h4>
+          {% regroup all_posts by published_date.year as year_list %}
+
+          <ul>
+          {% for year in year_list %}
+              <li>{{ year.grouper }}
+                  {% regroup year.list by published_date.month as month_list %}
+                  <ul>
+                  {% for month in month_list %}
+                      <li><a href="{% url 'post_list_month' year.grouper month.grouper %}">{{  month.list.0.published_date|date:'F' }} ({{ month.list|length }})</a></li>
+                  {% endfor %}
+                  </ul>
+              </li>
+          {% endfor %}
+          </ul>       
+          </div>
+
+
+          <div class="sidebar-module">
+            <h4>Useful sites</h4>
+            <ol class="list-unstyled">
+              <li><a target="_blank" href="https://www.hikingsouthafrica.co.za">Hiking South Africa</a></li>
+              <li><a target="_blank" href="https://www.climbing.co.za">Climb ZA</a></li>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+    <footer class="blog-footer">
+      <p>Blog created and maintained by Simon dW</p>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
